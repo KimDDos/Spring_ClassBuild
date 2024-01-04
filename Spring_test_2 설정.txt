@@ -1,0 +1,84 @@
+[New Spring Project] class 설정을 활용한 Spring 활용방안
+
+1. 기존 Legacy project - mvc 패턴 활용
+2. preference 설정 동일 
+	- Encoding 설정
+	- java builed path / library 수정
+	- project propertice 수정
+
+3. 라이브러리 추가
+	정리필요
+
+4. HikariCP 라이브러리 추가
+	google에 검색후 깃허브에서 atifact 긁어오기
+
+5. llogback.xml 작성
+	logger 설정으로 원하는 값을 추출하는 것을 제어 가능
+	log4j2 에서도 사용가능하니 잘 확인, 로그 확인하는 연습도 할 것
+
+6. 'src/main/resources' 경로에 log4jdbclog4jdbc.log4j2.properties 파일을 생성
+	log4jdbc.spylogdelegator.name=net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+
+7. pom.xml에서 build 부분에서 web.xml을 로드하게 되는데 삭제했으니까 다른 내용 입력
+	마지막 플러그인 끝난 다음줄에 입력
+	아래와 같은 구문은 webxml이 없으면 fail을 띄울거냐고 물어보는거임
+	<failOnMissingWebXml>false</failOnMissingWebXml> 
+
+8. Config 패키지에 WebConfig 클래스 생성
+	extends AbstractAnnotationConfigDispatcherServletInitializer 를 상속(extends)
+	override 메서드들 작성
+
+9. servletConfiguration 구현 [ServletConfig의 클래스가 따로 있기에 이름을 같게 하면 안 됨]
+	implements WebMvcConfigurer 
+	구현 : 
+	1. [annotation-driven] => @EnableWebMvc
+	2. [resources] => addResourceHandlers method
+	3. [InternalResourceViewResolver] => configureViewResolvers method
+	4. [StandardServletMultipartResolver] => configureViewResolvers method
+	5. components-scan은  어노테이션으로 설정
+	   - 설정간 베이스는 모두를 쓰기보다는 세부적으로 적는것을 추천
+
+------ 24-12-04 ------
+
+-  java Config 설정 프로젝트
+1. pom.xml
+2. 패키지 생성 / 폴더 생성
+3. WebConfig.java 생성 => 전반적인 설정
+4. ServletConfiguration.java 생성  => 화면 / 경로 관련 설정
+5. rootConfig.java 생성 => DB 관련 설정
+
+DB 생성
+-- DB 생성
+create database mywebdb;
+-- User 생성
+create user 'mywebUser'@'localhost' identified by 'mysql';
+-- 권한부여
+grant all privileges on mywebdb.* to 'mywebUser'@'localhost' with grant option;
+-- 권한 설정 완료
+flush privileges;
+
+10. rootConfig
+	ApplicationContext 작성 (@autowired)
+	DataSource 설정, SqlSessionFactory 설정
+	DataSourceTransactionManager 설정
+
+일반적으로 DB는 _로 단어구분
+read_count(SQL의 구분) >> readCount(자바의 구분)
+// 변경하는 역할
+
+DB 테이블 생성
+create table board(
+bno bigint not null auto_increment,
+title varchar(200) not null,
+writer varchar(100) not null,
+content text not null,
+reg_at datetime default now(),
+mod_at datetime default now(),
+read_count int default 0,
+cmt_qty int default 0,
+has_file int default 0,
+primary key(bno));
+
+@RequiredArgsConstructor
+	private final BoardService bsv;
+	이건 따로 공부가 필요할듯?
