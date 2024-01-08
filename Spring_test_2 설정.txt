@@ -82,3 +82,17 @@ primary key(bno));
 @RequiredArgsConstructor
 	private final BoardService bsv;
 	이건 따로 공부가 필요할듯?
+
+-------------------------------------------------------
+24-01-08
+
+Paging 
+ - list의 내용을 10개씩 끊어서 출력
+select * from board order by bno desc limit 0, 10;
+
+limit 시작번지, 개수
+< 1 2 3 4 5 6 7 8 9 10 >
+1page => limit 0, 10  =>  (PageNo - 1) * 10 >> start
+2page => limit 10, 10  =>  (2 - 1) * 10 >> start
+3page => limit 20, 10  =>  (3 - 1) * 10 >> start
+4page => limit 30, 10

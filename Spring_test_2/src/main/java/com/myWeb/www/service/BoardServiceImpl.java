@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import com.myWeb.www.domain.BoardVO;
+import com.myWeb.www.domain.PagingVO;
 import com.myWeb.www.repository.BoardDAO;
 
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> getList() {
+	public List<BoardVO> getList(PagingVO pgvo) {
 		// TODO Auto-generated method stub
-		return bdao.getList();
+		return bdao.getList(pgvo);
 	}
 
 	@Override
@@ -57,6 +58,12 @@ public class BoardServiceImpl implements BoardService{
 	public int readCountUp(int bno) {
 		// TODO Auto-generated method stub
 		return bdao.upCount(bno);
+	}
+
+	@Override
+	public int getTotalCount(PagingVO pgvo) {
+		// TODO Auto-generated method stub
+		return bdao.getTotalCount(pgvo);
 	} 
 	
 }
