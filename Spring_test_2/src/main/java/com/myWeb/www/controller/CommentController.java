@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,10 +38,17 @@ public class CommentController {
 	}
 	
 	@GetMapping(value = "/{bnoVal}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<PagingHandler>> getList(@PathVariable("bnoVal") int bno, @PathVariable("page") int page){
+	public ResponseEntity<PagingHandler> getList(@PathVariable("bnoVal") long bno, @PathVariable("page") int page){
 		log.info(">>>>>>> bno >>>>>> " + bno + "  >>>> page >>>>> " + page);
 		PagingVO pgvo = new PagingVO(page, 5);
-		List<PagingHandler> clist = csv.getList(bno, pgvo);
-		return new ResponseEntity<List<PagingHandler>>(clist, HttpStatus.OK);
+		PagingHandler ph = csv.getList(bno, pgvo);
+		return new ResponseEntity<PagingHandler>(ph, HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "/edit", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> edit(@RequestBody CommentVO cvo){
+		log.info(">>> edit cvo >>> {}",cvo);
+		int isOk = csv.modifyComment(cvo);
+		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) : new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR); 
 	}
 }

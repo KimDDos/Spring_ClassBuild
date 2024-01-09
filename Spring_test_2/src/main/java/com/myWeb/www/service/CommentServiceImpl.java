@@ -3,6 +3,7 @@ package com.myWeb.www.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myWeb.www.domain.CommentVO;
 import com.myWeb.www.domain.PagingVO;
@@ -22,14 +23,23 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public int post(CommentVO cvo) {
 		// TODO Auto-generated method stub
-		// bdao에 comment 갯수 업 시켜도 될 듯?
 		return cdao.insert(cvo);
 	}
 
+	@Transactional
 	@Override
-	public List<PagingHandler> getList(int bno, PagingVO pgvo) {
+	public PagingHandler getList(long bno, PagingVO pgvo) {
 		// TODO Auto-generated method stub
-		return cdao.getList(bno, pgvo);
+		int totalCount = cdao.selectOneBnoTotalCount(bno);
+		List<CommentVO> list = cdao.getList(bno, pgvo);
+		PagingHandler ph = new PagingHandler(pgvo, totalCount, list);
+		return ph;
+	}
+
+	@Override
+	public int modifyComment(CommentVO cvo) {
+		// TODO Auto-generated method stub
+		return cdao.modify(cvo);
 	}
 	
 }

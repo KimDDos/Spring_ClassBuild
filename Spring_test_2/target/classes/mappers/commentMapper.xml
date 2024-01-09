@@ -15,5 +15,13 @@
 		order by cno desc
 		limit #{pgvo.pageStart}, #{pgvo.qty} 
 	</select>
+	
+	<select id="selectOneBnoTotalCount" resultType="int">
+		select count(cno) from comment where bno=#{bno}
+	</select>
+	
+	<update id="modify">
+		update comment set content=#{content}, reg_date=now() where cno=#{cno}
+	</update>
 
 </mapper>
