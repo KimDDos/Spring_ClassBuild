@@ -6,9 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import com.myWeb.www.domain.BoardDTO;
 import com.myWeb.www.domain.BoardVO;
+import com.myWeb.www.domain.FileVO;
 import com.myWeb.www.domain.PagingVO;
 import com.myWeb.www.repository.BoardDAO;
+import com.myWeb.www.repository.FileDAO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +23,31 @@ public class BoardServiceImpl implements BoardService{
 	
 	private final BoardDAO bdao;
 	
+	private final FileDAO fdao;
+	
 	HttpServletRequest request;
 
 	@Override
-	public int insert(BoardVO bvo) {
+	public int insert(BoardDTO bdto) {
 		// TODO Auto-generated method stub
-		return bdao.insert(bvo);
+		int isOk = bdao.insert(bdto.getBvo());
+		
+		if(bdto.getFlist() == null) {
+			return isOk;
+		}
+		
+		// bvo insert 후 파일도 있다면
+		if(isOk > 0 && bdto.getFlist().size() > 0) {
+			// bno setting
+			long bno = bdao.selectOneBno();
+			// 가장 마지막에 등록된 bno
+			for(FileVO fvo : bdto.getFlist()) {
+				fvo.setBno(bno);
+				fdao.insert(fvo);
+			}
+		}
+		
+		return isOk;
 	}
 
 	@Override

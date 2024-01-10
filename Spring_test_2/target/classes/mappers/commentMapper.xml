@@ -23,5 +23,9 @@
 	<update id="modify">
 		update comment set content=#{content}, reg_date=now() where cno=#{cno}
 	</update>
+	
+	<delete id="deleteComment">
+		delete from comment where cno=#{cno}
+	</delete>
 
 </mapper>

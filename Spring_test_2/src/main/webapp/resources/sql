@@ -7,6 +7,8 @@ grant all privileges on mywebdb.* to 'mywebUser'@'localhost' with grant option;
 -- 권한 설정 완료
 flush privileges;
 
+
+
 -- 2024 - 01 - 04 --
 create table board(
 bno bigint not null auto_increment,
@@ -20,6 +22,8 @@ cmt_qty int default 0,
 has_file int default 0,
 primary key(bno));
 
+
+
 -- 2024 - 01 - 08
 create table comment(
 cno int auto_increment,
@@ -28,3 +32,16 @@ writer varchar(100) not null,
 content varchar(500) not null,
 reg_date datetime default now(),
 primary key(cno));
+
+
+
+--2024 - 01 - 10 --
+create table file(
+uuid varchar(256) not null,
+save_dir varchar(256) not null,
+file_name varchar(256) not null,
+file_type tinyint(1) default 0,
+bno bigint,
+file_size bigint,
+reg_at datetime default now(),
+primary key(uuid));

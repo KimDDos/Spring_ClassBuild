@@ -1,6 +1,7 @@
 package com.myWeb.www.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -40,7 +41,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		return new Filter[] {encoding};
 		// return new Filter[] {encoding, 000 ,  0000};
 		// 이렇게 여러가지 필터를 붙일수도 있음!
-		}
+	}
 	
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
@@ -48,7 +49,15 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		// multipartConfig 설정
 		// 사용자 지정 익셉션 처리 지정 => 404 page 설정
 		
-		super.customizeRegistration(registration);
+		// 파일 업로드 설정
+		String uploadLocation = "D:\\KDY\\_myProject\\_java\\_fileUpload";
+		int maxFileSize = 1024*1024*20; // 20Mb
+		int maxReqSize = maxFileSize * 2;
+		int fileSizeThreshold = maxFileSize;
+		
+		// multipartConfig 설정
+		MultipartConfigElement multipartConfig = new MultipartConfigElement(uploadLocation, maxFileSize, maxReqSize, fileSizeThreshold);
+		registration.setMultipartConfig(multipartConfig);
 	}
 	
 	

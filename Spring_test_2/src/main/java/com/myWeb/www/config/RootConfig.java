@@ -34,7 +34,7 @@ public class RootConfig {
 		HikariConfig hikariConfig = new HikariConfig();
 		// log4jdbc-log4j2 를 사용해서 
 		hikariConfig.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-		hikariConfig.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/mywebdb");
+		hikariConfig.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/mywebdb");                                           
 		hikariConfig.setUsername("mywebUser");
 		hikariConfig.setPassword("mysql");
 		
@@ -52,7 +52,7 @@ public class RootConfig {
 		// 캐시를 사용하면 동일한 쿼리가 여러 번 실행될 때 이점이 있음
 		
 		hikariConfig.addDataSourceProperty("dataSource.prepStmtCacheSize", "250");
-		// mysql 드라이버가 연결당 cache statement의 수에 관하 ㄴ서렁 : 250 ~ 500 사이 권장
+		// mysql 드라이버가 연결당 cache statement의 수에 관한 설정 : 250 ~ 500 사이 권장
 		
 		hikariConfig.addDataSourceProperty("dataSource.prepStmtCacheSqlLimit", "true");
 		// Connection 당 캐싱할 preparStatement의 개수 지정 옵션 : default 256 => true 설정시 자동 적용

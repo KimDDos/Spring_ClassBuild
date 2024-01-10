@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.myWeb.www.domain.BoardDTO;
 import com.myWeb.www.domain.BoardVO;
+import com.myWeb.www.domain.FileVO;
 import com.myWeb.www.domain.PagingVO;
+import com.myWeb.www.handler.FileHandler;
 import com.myWeb.www.handler.PagingHandler;
 import com.myWeb.www.service.BoardService;
 
@@ -32,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 
 	private final BoardService bsv;
+
+	private final FileHandler fh;
 	
 	@GetMapping("/register")
 	public void register() {
@@ -39,10 +45,17 @@ public class BoardController {
 	}
 	
 	@PostMapping("/register")
-	public String register(BoardVO bvo, Model m) {
+	public String register(BoardVO bvo, Model m, @RequestParam(name= "files", required = false) MultipartFile[] files) {
 		log.info(">>> register bvo >>> " + bvo);
 		
-		int isOk = bsv.insert(bvo);
+		List<FileVO> flist = null;
+		
+		// fileHandler 생성  (인풋 : multipartfile) => (아웃풋 : flist)
+		if(files[0].getSize() > 0) {
+			flist = fh.uploadFiles(files);
+		}
+		
+		int isOk = bsv.insert(new BoardDTO(bvo, flist));
 		log.info("board register ", isOk > 0 ? "Ok":"Fail" );
 		
 		m.addAttribute("msg_register", isOk);

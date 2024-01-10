@@ -2,14 +2,13 @@ package com.myWeb.www.service;
 
 import java.util.List;
 
+import com.myWeb.www.domain.BoardDTO;
 import com.myWeb.www.domain.BoardVO;
 import com.myWeb.www.domain.PagingVO;
 
-import lombok.extern.slf4j.Slf4j;
-
 public interface BoardService {
 
-	int insert(BoardVO bvo);
+	int insert(BoardDTO boardDTO);
 
 	List<BoardVO> getList(PagingVO pgvo);
 

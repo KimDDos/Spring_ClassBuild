@@ -41,5 +41,11 @@ public class CommentServiceImpl implements CommentService{
 		// TODO Auto-generated method stub
 		return cdao.modify(cvo);
 	}
+
+	@Override
+	public int delete(int cno, String writer) {
+		// TODO Auto-generated method stub
+		return cdao.deleteComment(cno);
+	}
 	
 }

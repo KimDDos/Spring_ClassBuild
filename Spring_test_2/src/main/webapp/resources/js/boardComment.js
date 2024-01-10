@@ -1,5 +1,3 @@
-console.log("boardComment JS 입성~!");
-
 document.getElementById('cmtPostBtn').addEventListener('click', () => {
      const cmtText = document.getElementById('cmtText');
      if (cmtText.value == null || cmtText.value == '') {
@@ -127,6 +125,20 @@ document.addEventListener('click', (e) => {
                // 수정된 댓글 뿌리기  page=1
                getCommentList(bnoVal);
           })
+     } else if (e.target.classList.contains('cmtRemove')) {
+          let li = e.target.closest('li');
+          let cno = li.dataset.cno;
+          let writer = li.dataset.writer;
+
+          deleteCommentToServer(cno, writer).then(result => {
+               console.log(result);
+               if (result == 1) {
+                    alert("댓글 삭제 성공~!");
+                    getCommentList(bnoVal);
+               }
+          })
+
+
      }
 })
 
@@ -139,6 +151,20 @@ async function editCommentToServer(cmtDataMod) {
                     "content-type": "application/json; charset=utf-8"
                },
                body: JSON.stringify(cmtDataMod)
+          }
+          const resp = await fetch(url, config);
+          const result = await resp.text();
+          return result;
+     } catch (error) {
+          console.log(error);
+     }
+}
+
+async function deleteCommentToServer(cno, writer) {
+     try {
+          const url = "/comment/del/" + cno + "/" + writer;
+          const config = {
+               method: 'delete',
           }
           const resp = await fetch(url, config);
           const result = await resp.text();

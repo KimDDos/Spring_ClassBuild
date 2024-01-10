@@ -80,7 +80,6 @@
 	</div>
 </div>
 
-
 <script type="text/javascript" src="/resources/js/boardComment.js"></script>
 <script type="text/javascript">
 	const msg_modify = `<c:out value="${msg_modify}"/>`;

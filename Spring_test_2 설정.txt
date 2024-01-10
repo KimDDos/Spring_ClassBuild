@@ -96,3 +96,29 @@ limit 시작번지, 개수
 2page => limit 10, 10  =>  (2 - 1) * 10 >> start
 3page => limit 20, 10  =>  (3 - 1) * 10 >> start
 4page => limit 30, 10
+
+----------------------------------------------------------
+24-01-10
+파일 업로드
+pom.xml
+
+D:\KDY\_myProject\_java\_fileUpload
+
+file 설정
+ - servletConfig 
+    => 업로드 경로 설정
+ - webConfig
+    => maxFIleSize, maxReqSize, fileSize Threshold
+
+파일 테이블 구성
+파일VO 생성
+create table file(
+uuid varchar(256) not null,
+save_dir varchar(256) not null,
+file_name varchar(256) not null,
+file_type tinyint(1) default 0,
+bno bigint,
+file_size bigint,
+reg_at datetime default now(),
+primary key(uuid));
+

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,13 @@ public class CommentController {
 	public ResponseEntity<String> edit(@RequestBody CommentVO cvo){
 		log.info(">>> edit cvo >>> {}",cvo);
 		int isOk = csv.modifyComment(cvo);
+		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) : new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR); 
+	}
+	
+	@DeleteMapping(value = "/del/{cno}/{writer}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> delete(@PathVariable("cno") int cno, @PathVariable("writer") String writer){
+		log.info(">>> delete cno >>> "+ cno + " / >>>> writer >>>> " + writer);
+		int isOk = csv.delete(cno, writer);
 		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) : new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR); 
 	}
 }
