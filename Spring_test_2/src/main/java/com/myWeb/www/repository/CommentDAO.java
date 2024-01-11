@@ -20,6 +20,4 @@ public interface CommentDAO {
 
 	int deleteComment(int cno);
 
-	
-	
 }

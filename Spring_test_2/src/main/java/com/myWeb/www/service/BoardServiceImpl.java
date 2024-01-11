@@ -5,12 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myWeb.www.domain.BoardDTO;
 import com.myWeb.www.domain.BoardVO;
 import com.myWeb.www.domain.FileVO;
 import com.myWeb.www.domain.PagingVO;
 import com.myWeb.www.repository.BoardDAO;
+import com.myWeb.www.repository.CommentDAO;
 import com.myWeb.www.repository.FileDAO;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ public class BoardServiceImpl implements BoardService{
 	private final BoardDAO bdao;
 	
 	private final FileDAO fdao;
+	
+	private final CommentDAO cdao;
 	
 	HttpServletRequest request;
 
@@ -56,18 +60,34 @@ public class BoardServiceImpl implements BoardService{
 		return bdao.getList(pgvo);
 	}
 
+	// 두개의 데이터를 들고올경우 트랜잭션 적용
+	@Transactional
 	@Override
-	public BoardVO getDetail(int bno, String path) {
+	public BoardDTO getDetail(int bno, String path) {
 		if(path.equals("/board/detail")) {
 			readCountUp(bno);
 		}
-		return bdao.getDetail(bno);
+		BoardVO bvo = bdao.getDetail(bno);
+		List<FileVO> flist = fdao.getFileList(bno);
+		BoardDTO bdto = new BoardDTO(bvo, flist);
+		return bdto;
 	}
 
+	@Transactional
 	@Override
-	public int modify(BoardVO bvo) {
+	public int modify(BoardDTO bdto) {
 		// TODO Auto-generated method stub
-		return bdao.boardUpdate(bvo);
+		int isOk = bdao.boardUpdate(bdto.getBvo());
+		if(bdto.getFlist() == null) {
+			return isOk;
+		} else {
+			for(FileVO fvo : bdto.getFlist()) {
+				fvo.setBno(bdto.getBvo().getBno());
+				fdao.insert(fvo);
+			}
+		}
+		
+		return isOk;
 	}
 
 	@Override
@@ -86,6 +106,18 @@ public class BoardServiceImpl implements BoardService{
 	public int getTotalCount(PagingVO pgvo) {
 		// TODO Auto-generated method stub
 		return bdao.getTotalCount(pgvo);
+	}
+
+	@Override
+	public int fileDelete(String uuid) {
+		// TODO Auto-generated method stub
+		return fdao.fileDelete(uuid);
+	}
+
+	@Override
+	public void fileCountUp(long bno) {
+		// TODO Auto-generated method stub
+		bdao.fileCountUp(bno);
 	} 
 	
 }

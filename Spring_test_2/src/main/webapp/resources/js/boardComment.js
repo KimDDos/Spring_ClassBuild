@@ -56,8 +56,8 @@ async function getCommentListFromServer(bnoVal, page) {
 function getCommentList(bnoVal, page = 1) {
      getCommentListFromServer(bnoVal, page).then(result => {
           console.log(result);
+          const ul = document.getElementById('CommentZone');
           if (result.cmtList.length > 0) {
-               const ul = document.getElementById('CommentZone');
                // 댓글을 다시 뿌릴때 기존 값을 삭제x 1page 일 경우에만 삭제
                if (page == 1) {
                     ul.innerHTML = '';

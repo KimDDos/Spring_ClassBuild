@@ -55,9 +55,9 @@
 					<td><a href="/board/detail?bno=${bvo.bno}">${bvo.title }</a></td>
 					<td>${bvo.writer }</td>
 					<td>${bvo.modAt }</td>
-					<td>${bvo.readCount }</td>
 					<td>${bvo.cmtQty }</td>
 					<td>${bvo.hasFile }</td>
+					<td>${bvo.readCount }</td>
 				</tr>
 			</c:forEach>
 		</tbody>

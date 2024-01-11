@@ -22,5 +22,9 @@ public interface BoardDAO {
 	int getTotalCount(PagingVO pgvo);
 
 	long selectOneBno();
+
+	void fileCountUp(long bno);
+
+	void commentCountUp(long bno);
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.myWeb.www.domain.CommentVO;
 import com.myWeb.www.domain.PagingVO;
 import com.myWeb.www.handler.PagingHandler;
+import com.myWeb.www.repository.BoardDAO;
 import com.myWeb.www.repository.CommentDAO;
 
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentServiceImpl implements CommentService{
 
 	private final CommentDAO cdao;
+	
+	private final BoardDAO bdao;
 
 	@Override
 	public int post(CommentVO cvo) {
 		// TODO Auto-generated method stub
+		commentCountUp(cvo.getBno());
 		return cdao.insert(cvo);
 	}
 
@@ -46,6 +50,12 @@ public class CommentServiceImpl implements CommentService{
 	public int delete(int cno, String writer) {
 		// TODO Auto-generated method stub
 		return cdao.deleteComment(cno);
+	}
+
+	@Override
+	public void commentCountUp(long bno) {
+		// TODO Auto-generated method stub
+		bdao.commentCountUp(bno);
 	}
 	
 }

@@ -13,5 +13,7 @@ public interface CommentService {
 	int modifyComment(CommentVO cvo);
 
 	int delete(int cno, String writer);
+	
+	void commentCountUp(long bno);
 
 }

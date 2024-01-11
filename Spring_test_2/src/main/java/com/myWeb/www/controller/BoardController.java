@@ -4,8 +4,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,14 +83,18 @@ public class BoardController {
 	@GetMapping({"/detail", "/modify"})
 	public void detail(HttpServletRequest request ,Model m, @RequestParam("bno") int bno) {
 		String path = request.getServletPath();
-		BoardVO bvo = bsv.getDetail(bno, path);
-		
-		m.addAttribute("bvo", bvo);
+		m.addAttribute("bdto", bsv.getDetail(bno, path));
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO bvo, RedirectAttributes re) {
-		int isOk = bsv.modify(bvo);
+	public String modify(BoardVO bvo, RedirectAttributes re, @RequestParam(name = "files", required = false) MultipartFile[] files) {
+		List<FileVO> flist = null;
+		
+		if(files[0].getSize() > 0) {
+			flist = fh.uploadFiles(files);
+		}
+		int isOk = bsv.modify(new BoardDTO(bvo, flist));
+		
 		re.addFlashAttribute("msg_modify", isOk);
 		re.addAttribute("bno", bvo.getBno());
 		return "redirect:/board/detail";
@@ -97,6 +105,13 @@ public class BoardController {
 		int isOk = bsv.deleteBoard(bno);
 		m.addAttribute("msg_delete", isOk);
 		return "index";
+	}
+	
+	@DeleteMapping(value = "/fileDelete/{uuid}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> fileDelete(@PathVariable("uuid") String uuid){
+		int isOk = bsv.fileDelete(uuid);
+		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) : 
+			new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }
