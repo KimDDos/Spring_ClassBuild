@@ -57,6 +57,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardVO> getList(PagingVO pgvo) {
 		// TODO Auto-generated method stub
+		bdao.updateBoardCounts();
 		return bdao.getList(pgvo);
 	}
 
@@ -64,7 +65,7 @@ public class BoardServiceImpl implements BoardService{
 	@Transactional
 	@Override
 	public BoardDTO getDetail(int bno, String path) {
-		if(path.equals("/board/detail")) {
+		if(path.equals("/board/detail123")) {
 			readCountUp(bno);
 		}
 		BoardVO bvo = bdao.getDetail(bno);

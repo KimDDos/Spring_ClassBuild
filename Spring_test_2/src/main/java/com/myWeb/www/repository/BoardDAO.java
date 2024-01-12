@@ -26,5 +26,9 @@ public interface BoardDAO {
 	void fileCountUp(long bno);
 
 	void commentCountUp(long bno);
+
+	void readCount(int bno);
+
+	void updateBoardCounts();
 	
 }

@@ -29,7 +29,7 @@
           <a class="nav-link" href="/board/list">게시판 보기</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">회원가입</a>
+          <a class="nav-link" href="/member/register">회원가입</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">로그인</a>

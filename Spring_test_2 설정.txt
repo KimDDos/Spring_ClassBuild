@@ -103,6 +103,9 @@ limit 시작번지, 개수
 pom.xml
 
 D:\KDY\_myProject\_java\_fileUpload
+++ 위에 있는거 복사할때 복사된 값을 복사해서 들고갈 경우
+D:\\KDY\\_myProject\\_java\\_fileUpload
+-> 이렇게 File.seperator가 두개씩 되니까 유의
 
 file 설정
  - servletConfig 
@@ -121,4 +124,70 @@ bno bigint,
 file_size bigint,
 reg_at datetime default now(),
 primary key(uuid));
+
+------------------------------------------------------------
+2024-01-12
+전체 리스트에서 bno 일치하는 댓글 갯수 update 
+update board b set cmt_qty = 
+(select count(bno) from comment where bno = b.bno),
+has_file = 
+(select count(bno) from file where bno = b.bno)
+
+
+Sweeper : 청소부, 실제 폴더안에 있는 파일을 삭제
+DB의 파일명과 폴더안의 파일을 비교하여 일치하지 않는 값이 있다면 삭제
+(폴더에서 삭제)
+[JSP에 file 삭제 핸들러 있음, 추후 시도 해보셈]
+스케줄러 기능
+해당 스케줄에 맞춰 자동으로 실행!
+
+pom.xml
+ - quartz-scheduler 2.3.2
+ - quartz-jobs 2.3.2
+
+--------------------------------------------------------------------
+2024- 01 - 12
+
+Security
+
+Member
+- 회원가입 => db에 저장
+
+- 로그인
+   Id/Pw => db 일치하는 값이 있는지 확인 => 로그인 진행(session 저장)
+- 로그아웃(session 끊기)
+
+User의 권한
+- admin
+[ - manager : 생략 ]
+- user
+
+User 권한
+- Role_ADMIN
+- Role_USER
+
+- security pom.xml 설정
+spring-security-core 5.5.3
+spring-security-web 5.5.3
+spring-security-config 5.5.3
+spring-security-taglib 5.5.3
+
+
+테이블 생성
+create table member(
+email varchar(100) not null,
+pwd varchar(1000) not null,
+nick_name varchar(100) not null,
+reg_at datetime default now(),
+last_login datetime default null,
+primary key(email));
+
+
+create table auth_member(
+email varchar(100) not null,
+auth varchar(50) not null )
+// 멤버에 포함된 하위키이기에 primary key x
+
+alter table auth_member add constraint fk_auth 
+foreign key(email) references member(email);
 
