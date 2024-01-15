@@ -56,3 +56,10 @@ document.addEventListener('change', (e) => {
      }
 
 })
+
+
+
+document.getElementById('logoutLinck').addEventListener('click', (e) => {
+     e.preventDefault();
+     document.getElementById('logoutForm').submit();
+})

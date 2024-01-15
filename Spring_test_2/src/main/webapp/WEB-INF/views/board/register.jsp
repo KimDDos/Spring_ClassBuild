@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
     
 <jsp:include page="../layout/header.jsp"></jsp:include>
 
@@ -13,10 +14,10 @@
 				type="text" class="form-control" name="title" id="title"
 				placeholder=" 제 목 ">
 		</div>
+		<sec:authentication property="principal.mvo.email" var="authEmail"/>
 		<div class="mb-3">
 			<label for="writer" class="form-label">Writer</label> <input
-				type="text" class="form-control" name="writer" id="writer"
-				placeholder=" 작 성 자 ">
+				type="text" class="form-control" name="writer" value="${authEmail}" id="writer" readonly>
 		</div>
 		<div class="mb-3">
 			<label for="content" class="form-label">Content</label>

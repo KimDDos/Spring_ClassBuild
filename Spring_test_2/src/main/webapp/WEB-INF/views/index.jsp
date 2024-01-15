@@ -16,9 +16,11 @@
 	const msg_register = `<c:out value="${msg_register}"/>`;
 	const msg_delete = `<c:out value="${msg_delete}"/>`;
 	const msg_login = `<c:out value="${msg_login}" />`;
+	const msg_signUp = `<c:out value="${msg_signUp}" />`;
 	if(msg_register == "1"){alert("게시글 작성 성공~!")}
 	if(msg_delete == "1"){alert("게시글 삭제 성공~!")}
-	if(msg_login == '1'){alert("로그인 실패");}
+	if(msg_login == '1'){alert("로그인 성공~!!");}
+	if(msg_signUp == '1'){alert("회원가입 성공~!!");}
 </script>
 
 <jsp:include page="./layout/footer.jsp"></jsp:include>

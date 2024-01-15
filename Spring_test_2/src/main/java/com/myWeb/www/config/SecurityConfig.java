@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	// UserDetail  =>  사용자 커스텀 생성
 	@Bean
 	public UserDetailsService customUserService() {
-		return new CustomAuthMemberService(null);
+		return new CustomAuthMemberService();
 	}
 	
 	@Override

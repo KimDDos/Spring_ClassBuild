@@ -5,11 +5,14 @@
 
 	<!-- email, pwd, nick_name -->
 <div class="container-md">
+	<h2>Member Register Page</h2>
 	<form action="/member/register" method="post">
 		<div class="mb-3">
 			<label for="email" class="form-label">E-mail</label> 
 			<input type="text" class="form-control" name="email" id="email" placeholder=" email ">
 		</div>
+		<!-- Email, ID 중복체크는 JSP, JS에서 중복체크를 따로 하는것이 좋음 -->
+		<!-- 그렇다면 체크박스? 활용해서 하는것이? -->
 		<div class="mb-3">
 			<label for="pwd" class="form-label">Password</label> 
 			<input type="password" class="form-control" name="pwd" id="pwd">
@@ -21,12 +24,5 @@
 		<button type="submit" class="btn btn-dark" >전 송</button>
 	</form>
 </div>
-
-<script type="text/javascript">
-	const msg_login = `<c:out value="${msg_login}" />`;
-	if(msg_login == '1'){
-		alert("로그인 실패");
-	}
-</script>
 
 <jsp:include page="../layout/footer.jsp"></jsp:include>
