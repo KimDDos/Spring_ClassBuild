@@ -51,6 +51,9 @@
         		<li class="nav-item">
 		          <a class="nav-link" href="/member/list">Member List ${authNick}(${authEmail}/ADMIN)</a>
 		        </li>
+		        <li class="nav-item">
+		          <a class="nav-link" href="/member/modify"> 회원정보수정 ${authNick} (${authEmail})</a>
+		        </li>
         	</c:when>
         	<c:otherwise>
         		<li class="nav-item">

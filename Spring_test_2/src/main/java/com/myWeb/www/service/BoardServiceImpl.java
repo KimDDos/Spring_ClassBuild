@@ -2,6 +2,7 @@ package com.myWeb.www.service;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
@@ -18,16 +19,14 @@ import com.myWeb.www.repository.FileDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService{
 	
-	private final BoardDAO bdao;
+	@Inject
+	private BoardDAO bdao;
 	
-	private final FileDAO fdao;
-	
-	private final CommentDAO cdao;
+	@Inject
+	private FileDAO fdao;
 	
 	HttpServletRequest request;
 

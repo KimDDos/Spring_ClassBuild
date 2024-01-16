@@ -24,16 +24,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-	@Getter
-	@Setter
 	private String authEmail;
 	
-	@Getter
-	@Setter
 	private String authUrl;
 	
 	// redirect 데이터를 가지고 리다이렉트 하는 역할
@@ -57,7 +52,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		// 내부에서 로그인 세션 저장됨.
 		HttpSession ses = request.getSession();
-		log.info("loginSuccess >> ses >> {} ", ses.toString());
 
 		if(!isOk || ses == null) {
 			return;
@@ -69,4 +63,22 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		rdstg.sendRedirect(request, response, (saveReq != null ? saveReq.getRedirectUrl() : getAuthUrl()));
 	}
 
+	public String getAuthEmail() {
+		return authEmail;
+	}
+
+	public void setAuthEmail(String authEmail) {
+		this.authEmail = authEmail;
+	}
+
+	public String getAuthUrl() {
+		return authUrl;
+	}
+
+	public void setAuthUrl(String authUrl) {
+		this.authUrl = authUrl;
+	}
+
+	
+	
 }

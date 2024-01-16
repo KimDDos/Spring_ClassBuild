@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,15 +19,14 @@ import com.myWeb.www.repository.FileDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
 @EnableScheduling
-@RequiredArgsConstructor
 public class FIleSweeper {
-	
+
 	private final String BASE_PATH ="D:\\KDY\\_myProject\\_java\\_fileUpload\\";
 	
-	private final FileDAO fdao;
+	@Inject
+	private FileDAO fdao;
 	
 	// cron 표현식 : 초 / 분 / 시 / 일 / 월 / 요일 / 년도(생략가능)
 	// [예시]
@@ -35,7 +36,6 @@ public class FIleSweeper {
 	
 	@Scheduled(cron="0 41 10 * * *")
 	public void FileSweeper() {
-		log.info(">>>> FileSweeper Running Start~!! : {}", LocalDateTime.now());
 		
 		// DB에 등록된 파일 목록 가져오기
 		List <FileVO> dbList = fdao.selectListAllFile();
@@ -54,7 +54,6 @@ public class FIleSweeper {
 			}
 		}
 		
-		log.info("currFiles >>> {}", currFiles);;
 		
 		// 오늘 날짜를 반영한 폴더 구조 경로 만들기
 		LocalDate now = LocalDate.now();
@@ -69,16 +68,13 @@ public class FIleSweeper {
 		
 		//실제 저장되어 있는 파일과 DB에 존재하는 파일을 비교하여 없는 파일은 삭제 진행
 		for(File file : allFileObjects) {
-			log.info("File file 객체 >>>>>> {}", file);
 			String storedFileName = file.toPath().toString();
 			// 실제 저장한 파일의 경로를 보는거? Yes Or No =>
 			if(!currFiles.contains(storedFileName)) {
 				file.delete();
-				log.info(">>>> delete file >>> {}", storedFileName);
 			}
 		}
 		
-		log.info(">>>> FileSweeper Running Finish~!! : {}", LocalDateTime.now());
 		// start : 2024-01-12T10:41:00.007693100
 		// finish : 2024-01-12T10:41:00.058437700
 		// 0.051 sec

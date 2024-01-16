@@ -9,9 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
 public class PagingHandler {
 	
 	private int startPage; // 하단 페이지 네이션의 시작번호 1, 11, 21 ...
@@ -51,5 +48,63 @@ public class PagingHandler {
 		this(pgvo, totalCount);
 		this.cmtList = cmtList;
 	}
+
+	public int getStartPage() {
+		return startPage;
+	}
+
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+
+	public int getEndPage() {
+		return endPage;
+	}
+
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+
+	public boolean isPrev() {
+		return prev;
+	}
+
+	public void setPrev(boolean prev) {
+		this.prev = prev;
+	}
+
+	public boolean isNext() {
+		return next;
+	}
+
+	public void setNext(boolean next) {
+		this.next = next;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public PagingVO getPgvo() {
+		return pgvo;
+	}
+
+	public void setPgvo(PagingVO pgvo) {
+		this.pgvo = pgvo;
+	}
+
+	public List<CommentVO> getCmtList() {
+		return cmtList;
+	}
+
+	public void setCmtList(List<CommentVO> cmtList) {
+		this.cmtList = cmtList;
+	}
+	
+	
 	
 }

@@ -2,6 +2,7 @@ package com.myWeb.www.controller;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -33,15 +34,15 @@ import lombok.extern.slf4j.Slf4j;
 // @RequiredArgsConstructor 선언 후
 // private final 로 객체 등록 => 생성자 주입
 
-@Slf4j
 @RequestMapping("/board/*")
 @Controller
-@RequiredArgsConstructor
 public class BoardController {
 
-	private final BoardService bsv;
+	@Inject
+	private BoardService bsv;
 
-	private final FileHandler fh;
+	@Inject
+	private FileHandler fh;
 	
 	@GetMapping("/register")
 	public void register() {
@@ -50,7 +51,6 @@ public class BoardController {
 	
 	@PostMapping("/register")
 	public String register(BoardVO bvo, Model m, @RequestParam(name= "files", required = false) MultipartFile[] files) {
-		log.info(">>> register bvo >>> " + bvo);
 		
 		List<FileVO> flist = null;
 		
@@ -60,7 +60,6 @@ public class BoardController {
 		}
 		
 		int isOk = bsv.insert(new BoardDTO(bvo, flist));
-		log.info("board register ", isOk > 0 ? "Ok":"Fail" );
 		
 		m.addAttribute("msg_register", isOk);
 		return "index";
@@ -68,14 +67,11 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public void list(Model m, PagingVO pgvo) {
-		log.info(">>>>>>>>>> list pgvo >>>>>> {}", pgvo);
 		// 페이징 처리
 		List <BoardVO> list = bsv.getList(pgvo); 
 		// totalCount 구하기
 		int totalCount = bsv.getTotalCount(pgvo);
-		log.info(">>>> totalCount >>> {}", totalCount);
 		
-		log.info(">>> list >>> {}", list);
 		m.addAttribute("ph", new PagingHandler(pgvo, totalCount));
 		m.addAttribute("list", list);
 	}

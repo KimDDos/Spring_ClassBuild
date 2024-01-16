@@ -71,4 +71,13 @@ auth varchar(50) not null )
 
 -- member 와 auth_member foreign key 추가 --
 alter table auth_member add constraint fk_auth 
-foreign key(email) references member(email);
+foreign key(email) references member(email)
+
+-- 2024 - 01 - 16 --
+
+-- member 와 auth_member foreign key drop
+alter table auth_member drop foreign key fk_auth
+
+-- member 와 auth_member foreign key에 cascade 추가 
+alter table auth_member add constraint fk_auth 
+foreign key(email) references member(email) ON delete CASCADE;

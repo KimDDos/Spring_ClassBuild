@@ -46,7 +46,6 @@ public class FileHandler {
 			
 			String originalFileName = file.getOriginalFilename();
 			String fileName = originalFileName.substring(originalFileName.lastIndexOf(File.separator)+1);
-			log.info(">>>> fileName >>>> {}", fileName);
 			fvo.setFileName(fileName);
 			
 			UUID uuid = UUID.randomUUID();
@@ -73,7 +72,6 @@ public class FileHandler {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.info("파일 생성 오류");
 			}
 			
 			flist.add(fvo);

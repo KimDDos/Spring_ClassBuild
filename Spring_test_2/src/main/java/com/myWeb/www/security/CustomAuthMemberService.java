@@ -10,7 +10,6 @@ import com.myWeb.www.repository.MemberDAO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class CustomAuthMemberService implements UserDetailsService {
 
 	@Inject
@@ -25,7 +24,6 @@ public class CustomAuthMemberService implements UserDetailsService {
 			throw new UsernameNotFoundException(username);
 		}
 		mvo.setAuthList(mdao.selectAuths(username));
-		log.info(">>>>>> UserDetails >>>>>> {}", mvo);
 		return new AuthMember(mvo);
 	}
 

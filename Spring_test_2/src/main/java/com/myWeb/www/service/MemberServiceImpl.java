@@ -1,20 +1,21 @@
 package com.myWeb.www.service;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myWeb.www.repository.MemberDAO;
 import com.myWeb.www.security.MemberVO;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
 
-	private final MemberDAO mdao;
+	@Inject
+	private MemberDAO mdao;
 	
 
 	@Transactional
@@ -28,6 +29,28 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public boolean updateLastLogin(String authEmail) {
 		return mdao.updateLastLogin(authEmail) > 0 ? true : false;
+	}
+
+
+	@Override
+	public int modify(MemberVO mvo) {
+		return mdao.modify(mvo);
+	}
+
+
+	@Override
+	public String getPassword(MemberVO mvo) {
+		return mdao.getPwd(mvo.getEmail());
+	}
+
+
+	@Override
+	public List<MemberVO> getMemList() {
+		List<MemberVO> mlist = mdao.getList();
+		for(MemberVO m : mlist) {
+			m.setAuthList(mdao.selectAuths(m.getEmail()));
+		}
+		return mlist;
 	}
 	
 }

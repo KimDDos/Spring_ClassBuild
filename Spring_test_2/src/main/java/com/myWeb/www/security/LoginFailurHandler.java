@@ -16,9 +16,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@Getter
-@Setter
 @Component
 public class LoginFailurHandler implements AuthenticationFailureHandler {
 
@@ -37,11 +34,28 @@ public class LoginFailurHandler implements AuthenticationFailureHandler {
 				exception instanceof InternalAuthenticationServiceException) {
 			setErrorMessage(exception.getMessage().toString());
 		}
-		log.info(">>>>> errMsg >>> {}", errorMessage);
 		request.setAttribute("email", getAuthEmail());
 		request.setAttribute("errMsg", getErrorMessage());
 		request.getRequestDispatcher("/member/login?error").forward(request, response);
 	}
+
+	public String getAuthEmail() {
+		return authEmail;
+	}
+
+	public void setAuthEmail(String authEmail) {
+		this.authEmail = authEmail;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
 	
 
+	
+	
 }

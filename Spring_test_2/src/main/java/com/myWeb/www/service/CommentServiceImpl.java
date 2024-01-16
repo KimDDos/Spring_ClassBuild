@@ -2,6 +2,8 @@ package com.myWeb.www.service;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService{
 
-	private final CommentDAO cdao;
+	@Inject
+	private CommentDAO cdao;
 	
-	private final BoardDAO bdao;
+	@Inject
+	private BoardDAO bdao;
 
 	@Override
 	public int post(CommentVO cvo) {

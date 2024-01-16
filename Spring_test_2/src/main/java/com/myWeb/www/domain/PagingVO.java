@@ -4,9 +4,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.Getter;
 
-@Getter
-@Setter
-@ToString
 public class PagingVO {
 
 	private int pageNo;  // 현재 페이지 번호
@@ -35,5 +32,45 @@ public class PagingVO {
 	public String[] getTypeToArray() {
 		return this.type == null ? new String[] {} : this.type.split("");
 	}
+
+	public int getPageNo() {
+		return pageNo;
+	}
+
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+
+	public int getQty() {
+		return qty;
+	}
+
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	@Override
+	public String toString() {
+		return "PagingVO [pageNo=" + pageNo + ", qty=" + qty + ", type=" + type + ", keyword=" + keyword + "]";
+	}
+	
+	
+	
 	
 }
